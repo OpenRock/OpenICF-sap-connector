@@ -31,8 +31,6 @@ import org.identityconnectors.framework.common.objects.ObjectClass
 import org.identityconnectors.framework.common.objects.OperationOptions
 import org.identityconnectors.framework.common.objects.Uid
 
-static final String EMAIL_SUBTYPE = "0010"
-static final String SYS_UNAME_SUBTYPE = "0001"
 
 // The connector injects the following variables in the script:
 // destination: handler to the SAP Jco destination
@@ -65,6 +63,8 @@ log.info("Entering {0} script",operation);
 assert operation == OperationType.UPDATE, 'Operation must be a SEARCH'
 assert objectClass.is("employee"), "Object Class must be employee"
 
+def EMAIL_SUBTYPE = "0010"
+def SYS_UNAME_SUBTYPE = "0001"
 
 // This example will show how to update/create an EMAIL address on the INFOTYPE 0105 SUBTYPE 0010
 // as well as the SYS-UNAME on the INFOTYPE 0105 SUBTYPE 0001
