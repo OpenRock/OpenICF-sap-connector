@@ -29,18 +29,12 @@
     <skin>
         <groupId>org.forgerock.commons</groupId>
         <artifactId>forgerock-community-skin</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </skin>
     <publishDate position="right" format="yyyy.MM.dd"/>
     <version position="right"/>
     <googleAnalyticsAccountId>UA-23412190-10</googleAnalyticsAccountId>
     <body>
-        <breadcrumbs>
-            <item name="Developer Community" href="http://www.forgerock.org" />
-            <item name="OpenICF" href="../../index.html"/>
-            <item name="Connectors" href="../index.html" />
-            <item name="SAP Connector" href="./index.html" />
-        </breadcrumbs>
         <menu name="Overview" img="images/arrow_right.png">
             <item name="Introduction" href="openicf-report.html"/>
             <item name="FAQ" href="faq.html"/>
@@ -49,7 +43,7 @@
         <menu name="SAP Core Docs">
             <item name="All Formats" href="docs.html" />
             <!--item name="Release Notes" href="./doc/release-notes/index.html" /-->
-            <item name="Developer Guide" href="./doc/sap-connector-1.1.0.0-SNAPSHOT/index.html" />
+            <item name="Installation Guide" href="./doc/bootstrap/${project.artifactId}-${project.version}/index.html" />
         </menu>
 
         <menu ref="reports"/>

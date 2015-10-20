@@ -1,2 +1,3 @@
 /target/
 /src/test/config/org.forgerock.openicf.connectors.sap.SapConnector/config-private/
+/src/test/config/org.forgerock.openicf.connectors.sap.SapConnector/config-private/config.groovy

@@ -41,7 +41,7 @@ public class SapConnection {
     /**
      * Setup logging for the {@link ScriptedSQLConnection}.
      */
-    static Log log = Log.getLog(SapConnection.class);
+    private static final Log logger = Log.getLog(SapConnection.class);
 
     public SapConnection(SapConfiguration configuration) {
         this.configuration = configuration;
@@ -50,7 +50,7 @@ public class SapConnection {
 
         if (cddProvider.getDestinationProperties(this.configuration.getDestination()) == null) {
             cddProvider.createDestination(this.configuration.getDestination(), initializeProperties(this.configuration));
-            log.info("Destination {0} has been created", this.configuration.getDestination());
+            logger.info("Destination {0} has been created", this.configuration.getDestination());
         }
         try {
             destination = JCoDestinationManager.getDestination(this.configuration.getDestination());
@@ -73,7 +73,7 @@ public class SapConnection {
                 }
             }
             this.cddProvider.dispose(this.configuration.getDestination());
-            log.info("Destination {0} has been disposed", this.configuration.getDestination());
+            logger.info("Destination {0} has been disposed", this.configuration.getDestination());
         }
     }
 
@@ -125,14 +125,19 @@ public class SapConnection {
         if (configuration.isDirectConnection()) {
             connProperties.setProperty(DestinationDataProvider.JCO_SYSNR, configuration.getSystemNumber());
             connProperties.setProperty(DestinationDataProvider.JCO_ASHOST, configuration.getAsHost());
-        } 
+        }
+        // Not used for now - Related to message server
 //        else {
-//            connProperties.setProperty(DestinationDataProvider.JCO_GROUP, configuration.getGroup());
 //            connProperties.setProperty(DestinationDataProvider.JCO_MSHOST, configuration.getMsHost());
 //            connProperties.setProperty(DestinationDataProvider.JCO_MSSERV, configuration.getMsServ());
-//            connProperties.setProperty(DestinationDataProvider.JCO_R3NAME, configuration.getR3Name());
 //        }
 
+        if (configuration.getGroup() != null) {
+            connProperties.setProperty(DestinationDataProvider.JCO_GROUP, configuration.getSapRouter());
+        } 
+        if (configuration.getR3Name() != null) {
+            connProperties.setProperty(DestinationDataProvider.JCO_R3NAME, configuration.getSapRouter());
+        } 
         if (configuration.getSapRouter() != null) {
             connProperties.setProperty(DestinationDataProvider.JCO_SAPROUTER, configuration.getSapRouter());
         } 
@@ -150,7 +155,6 @@ public class SapConnection {
         connProperties.setProperty(DestinationDataProvider.JCO_POOL_CAPACITY,configuration.getPoolCapacity());
 
         // Not used for now
-
 //        connectionProperties.setProperty(DestinationDataProvider.JCO_ALIAS_USER,
 //        connectionProperties.setProperty(DestinationDataProvider.JCO_AUTH_TYPE,
 //        connectionProperties.setProperty(DestinationDataProvider.JCO_AUTH_TYPE_CONFIGURED_USER,configuration);
@@ -162,8 +166,6 @@ public class SapConnection {
 //        connectionProperties.setProperty(DestinationDataProvider.JCO_EXTID_DATA,configuration);
 //        connectionProperties.setProperty(DestinationDataProvider.JCO_EXTID_TYPE,configuration);
 //        connectionProperties.setProperty(DestinationDataProvider.JCO_GETSSO2,configuration);
-//        connectionProperties.setProperty(DestinationDataProvider.JCO_GWHOST,configuration);
-//        connectionProperties.setProperty(DestinationDataProvider.JCO_GWSERV,configuration);
 //        connectionProperties.setProperty(DestinationDataProvider.JCO_LCHECK,configuration);
 //        connectionProperties.setProperty(DestinationDataProvider.JCO_MYSAPSSO2,configuration);
 //        connectionProperties.setProperty(DestinationDataProvider.JCO_PCS,configuration);
@@ -176,7 +178,6 @@ public class SapConnection {
 //        connectionProperties.setProperty(DestinationDataProvider.JCO_TPNAME,configuration);
 //        connectionProperties.setProperty(DestinationDataProvider.JCO_TYPE,configuration);
 //        connectionProperties.setProperty(DestinationDataProvider.JCO_USER_ID,configuration);
-
 
         return connProperties;
     }

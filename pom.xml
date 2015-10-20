@@ -30,14 +30,14 @@
     <parent>
         <groupId>org.forgerock.openicf.connectors</groupId>
         <artifactId>connectors-parent</artifactId>
-        <version>1.4.1.0</version>
+        <version>1.5.0.0-SNAPSHOT</version>
     </parent>
     <groupId>org.forgerock.openicf.connectors</groupId>
     <artifactId>sap-connector</artifactId>
     <version>1.4.0.0-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <name>Sap Connector</name>
-    <description>Connector for Sap</description>
+    <description>Connector for SAP using JCo librairies</description>
     <url>https://openicf.forgerock.org/connectors/sap-connector</url>
     <issueManagement>
         <system>jira</system>
@@ -45,7 +45,7 @@
     </issueManagement>
     <ciManagement>
         <system>jenkins</system>
-        <url>https://ci.forgerock.org/view/OpenICF/job/OpenICF - SAP-connector</url>
+        <url>https://ci.forgerock.org/view/OpenICF/job/OpenICF - sap-connector - postcommit/</url>
     </ciManagement>
     <scm>
         <connection>scm:git:ssh://git@stash.forgerock.org:7999/openicf/sap-connector.git</connection>
@@ -57,6 +57,8 @@
         <maven.compiler.source>1.7</maven.compiler.source>
         <connectorPackage>org.forgerock.openicf.connectors.sap</connectorPackage>
         <connectorClass>SapConnector</connectorClass>
+        <framework.compatibilityVersion>1.4</framework.compatibilityVersion>
+        <framework.releaseVersion>1.0</framework.releaseVersion>
     </properties>
     <repositories>
         <repository>
@@ -77,6 +79,10 @@
         </repository>
     </repositories>
     <dependencies>
+         <dependency>
+            <groupId>org.forgerock.openicf.framework</groupId>
+            <artifactId>connector-framework</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>

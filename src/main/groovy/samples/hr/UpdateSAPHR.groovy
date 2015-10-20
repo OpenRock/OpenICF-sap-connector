@@ -31,6 +31,9 @@ import org.identityconnectors.framework.common.objects.ObjectClass
 import org.identityconnectors.framework.common.objects.OperationOptions
 import org.identityconnectors.framework.common.objects.Uid
 
+static final String EMAIL_SUBTYPE = "0010"
+static final String SYS_UNAME_SUBTYPE = "0001"
+
 // The connector injects the following variables in the script:
 // destination: handler to the SAP Jco destination
 // repository: handler to the SAP functions repository
@@ -71,20 +74,20 @@ def email = updateAttributes.findMap("EMAIL");
 def sysname = updateAttributes.findMap("SYS-UNAME");
 
 if (email != null){
-    if (empComm.get("0010") == null){
-        empComm.create("0010", email)
+    if (empComm.get(EMAIL_SUBTYPE) == null){
+        empComm.create(EMAIL_SUBTYPE, email)
     }
     else {
-        empComm.update("0010", email)
+        empComm.update(EMAIL_SUBTYPE, email)
     }
 }
 
 if (sysname != null){
-    if (empComm.get("0001") == null){
-        empComm.create("0001", sysname)
+    if (empComm.get(SYS_UNAME_SUBTYPE) == null){
+        empComm.create(SYS_UNAME_SUBTYPE, sysname)
     }
     else {
-        empComm.update("0001", sysname)
+        empComm.update(SYS_UNAME_SUBTYPE, sysname)
     }
 }
 

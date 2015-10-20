@@ -34,7 +34,7 @@ import org.identityconnectors.framework.spi.ConfigurationProperty;
 @ConfigurationClass(skipUnsupported = true)
 public class SapConfiguration extends ScriptedConfiguration {
 
-    static Log log = Log.getLog(SapConfiguration.class);
+    private static final Log logger = Log.getLog(SapConfiguration.class);
     
     // ===================================
     // SAP Connection Config
@@ -796,7 +796,7 @@ public class SapConfiguration extends ScriptedConfiguration {
      */
     public String getMessage(String key) {
         final String fmt = getConnectorMessages().format(key, key);
-        log.ok("Get for a key {0} connector message {1}", key, fmt);
+        logger.ok("Get for a key {0} connector message {1}", key, fmt);
         return fmt;
     }
 
