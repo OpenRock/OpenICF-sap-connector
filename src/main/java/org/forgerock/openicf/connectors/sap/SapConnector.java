@@ -21,11 +21,11 @@ import com.sap.conn.jco.JCoDestination;
 import groovy.lang.Binding;
 import groovy.lang.Closure;
 
-import org.forgerock.openicf.connectors.groovy.ScriptedConnector;
 import org.identityconnectors.common.logging.Log;
 import org.identityconnectors.framework.spi.Connector;
 import org.identityconnectors.framework.spi.ConnectorClass;
 
+import org.forgerock.openicf.misc.scriptedcommon.ScriptedConnectorBase;
 /**
  * Main implementation of the Sap Connector.
  *
@@ -34,7 +34,7 @@ import org.identityconnectors.framework.spi.ConnectorClass;
         configurationClass = SapConfiguration.class, messageCatalogPaths = {
             "org/forgerock/openicf/connectors/groovy/Messages",
             "org/forgerock/openicf/connectors/sap/Messages" })
-public class SapConnector extends ScriptedConnector implements Connector {
+public class SapConnector extends ScriptedConnectorBase<SapConfiguration> implements Connector {
 
     /**
      * Setup logging for the {@link SapConnector}.
