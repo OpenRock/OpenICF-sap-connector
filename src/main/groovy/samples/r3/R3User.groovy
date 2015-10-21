@@ -39,9 +39,6 @@ class R3User {
     private static final String[] TABLES = ["PROFILES","ACTIVITYGROUPS","ADDTEL","GROUPS"]
     private static final String NODATE = "0000-00-00"
     
-    private final List<R3UserActivityGroup> roles;
-    private final List<R3UserProfile> profiles;
-    
     private static final Log log = Log.getLog(R3User.class);
     
     def repository

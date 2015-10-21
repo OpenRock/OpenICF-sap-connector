@@ -47,6 +47,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.testng.Assert;
+import org.testng.SkipException;
 
 
 /**
@@ -104,7 +105,7 @@ public class SapConnectorTests {
         }
     }
     
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void testTest() {
         LOGGER.info("Running testTest...");
         connectorFacade.test();
@@ -112,7 +113,7 @@ public class SapConnectorTests {
     
     /////////////////////   HR TESTS ////////////////////////////////////
 
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void testQueryListAllSAPHREMployee() {
         // just need to send an empty query
         // to fetch all entries
@@ -123,7 +124,7 @@ public class SapConnectorTests {
         //LOGGER.info(results.toString());
     }
 
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void testQuerySearchSAPHREmployee() {
         LOGGER.info("Running testQueryGetSAPHREmployee...");
         OperationOptionsBuilder oob = new OperationOptionsBuilder();
@@ -134,14 +135,14 @@ public class SapConnectorTests {
         Assert.assertEquals(1, results.size());
     }
 
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void testGetSAPHREmployee() {
         LOGGER.info("Running testQueryGetSAPHREmployee...");
         OperationOptionsBuilder oob = new OperationOptionsBuilder();
         Assert.assertNotNull(connectorFacade.getObject(new ObjectClass("employee"), new Uid("00001327"), oob.build()));
     }
 
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void testUpdateSAPHREmail() {
         String empno = "200013";
         Uid uid = new Uid(empno);
@@ -159,7 +160,7 @@ public class SapConnectorTests {
         System.out.println("Returned email is: " + results.get(0).getAttributeByName("COMMUNICATION_EMAIL_ID").getValue().get(0));
     }
 
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void testUpdateSAPHRSysName() {
         String empno = "200013";
         Uid uid = new Uid(empno);
@@ -182,7 +183,7 @@ public class SapConnectorTests {
     
     
     //////////////  QUERY/SEARCH
-    @Test(enabled = false, groups = {"search"})
+    @Test(enabled = true, groups = {"search"})
     public void testListAllSAPR3Users() {
         // empty query to fetch all entries
         OperationOptionsBuilder oob = new OperationOptionsBuilder();
@@ -190,7 +191,7 @@ public class SapConnectorTests {
         Assert.assertTrue(results.size() > 3);
     }
     
-    @Test(enabled = false, groups = {"search"})
+    @Test(enabled = true, groups = {"search"})
     public void testListAllSAPR3Profiles() {
         // empty query to fetch all entries
         OperationOptionsBuilder oob = new OperationOptionsBuilder();
@@ -198,7 +199,7 @@ public class SapConnectorTests {
         Assert.assertTrue(results.size() > 3);
     }
     
-    @Test(enabled = false, groups = {"search"})
+    @Test(enabled = true, groups = {"search"})
     public void testListAllSAPR3Roles() {
         // empty query to fetch all entries
         OperationOptionsBuilder oob = new OperationOptionsBuilder();
@@ -206,7 +207,7 @@ public class SapConnectorTests {
         Assert.assertTrue(results.size() > 3);
     }
     
-    @Test(enabled = false, groups = {"search"})
+    @Test(enabled = true, groups = {"search"})
     public void testListAllSAPR3Companies() {
         // empty query to fetch all entries
         OperationOptionsBuilder oob = new OperationOptionsBuilder();
@@ -214,7 +215,7 @@ public class SapConnectorTests {
         Assert.assertTrue(results.size() > 0);
     }
 
-    @Test(enabled = false, groups = {"search"}, expectedExceptions = {ConnectorException.class})
+    @Test(enabled = true, groups = {"search"}, expectedExceptions = {ConnectorException.class})
     public void testFailGetSAPR3User() {
         OperationOptionsBuilder oob = new OperationOptionsBuilder();
         connectorFacade.getObject(ObjectClass.ACCOUNT, new Uid("NOTEXIST"), oob.build());
@@ -222,7 +223,7 @@ public class SapConnectorTests {
         //List<ConnectorObject> results = TestHelpers.searchToList(connectorFacade, ObjectClass.ACCOUNT, filter, oob.build());
     }
 
-    @Test(enabled = false, groups = {"search"})
+    @Test(enabled = true, groups = {"search"})
     public void testExactQuerySAPR3User() {
         OperationOptionsBuilder oob = new OperationOptionsBuilder();
         Filter filter = FilterBuilder.equalTo(AttributeBuilder.build("USERNAME", "NOTEXIST"));
@@ -231,7 +232,7 @@ public class SapConnectorTests {
     
     //////////////  CREATE
 
-    @Test(enabled = false, groups = {"create"}, dependsOnGroups = {"delete"})
+    @Test(enabled = true, groups = {"create"}, dependsOnGroups = {"delete"})
     public void testCreateSimpleSAPR3UserPasswordExpired() {
         java.util.Set<Attribute> createAttributes = new java.util.HashSet<>();
         createAttributes.add(AttributeBuilder.buildPassword(new GuardedString("Passw0rd".toCharArray())));
@@ -244,7 +245,7 @@ public class SapConnectorTests {
         
     }
 
-    @Test(enabled = false, groups = {"create"}, dependsOnGroups = {"delete"})
+    @Test(enabled = true, groups = {"create"}, dependsOnGroups = {"delete"})
     public void testCreateSimpleSAPR3UserPasswordActive() {
         java.util.Set<Attribute> createAttributes = new java.util.HashSet<>();
         createAttributes.add(AttributeBuilder.buildPassword(new GuardedString("Passw0rd".toCharArray())));
@@ -258,7 +259,7 @@ public class SapConnectorTests {
         Assert.assertTrue((Boolean)co.getAttributeByName(OperationalAttributes.ENABLE_NAME).getValue().get(0));
     }
 
-    @Test(enabled = false, groups = {"create"}, dependsOnGroups = {"delete"})
+    @Test(enabled = true, groups = {"create"}, dependsOnGroups = {"delete"})
     public void testCreateSimpleSAPR3UserLocked() {
         java.util.Set<Attribute> createAttributes = new java.util.HashSet<>();
         createAttributes.add(AttributeBuilder.buildPassword(new GuardedString("Passw0rd".toCharArray())));
@@ -272,7 +273,7 @@ public class SapConnectorTests {
         Assert.assertTrue((Boolean)co.getAttributeByName(OperationalAttributes.LOCK_OUT_NAME).getValue().get(0));
     }
 
-    @Test(enabled = false, groups = {"create"}, dependsOnGroups = {"delete"})
+    @Test(enabled = true, groups = {"create"}, dependsOnGroups = {"delete"})
     public void testCreateSAPR3User() {
         Map<String,String> logonData = new HashMap<>();
         Map<String,String> address = new HashMap<>();
@@ -305,7 +306,7 @@ public class SapConnectorTests {
         Assert.assertTrue((Boolean)co.getAttributeByName(OperationalAttributes.ENABLE_NAME).getValue().get(0));
     }
     
-    @Test(enabled = false, groups = {"create"}, dependsOnGroups = {"delete"})
+    @Test(enabled = true, groups = {"create"}, dependsOnGroups = {"delete"})
     public void testCreateSimpleSAPR3UserWithRoles() {
         List<Map> roles = new ArrayList<>();
         Map<String,String> role1 = new HashMap<>();
@@ -328,7 +329,7 @@ public class SapConnectorTests {
         Assert.assertEquals(2, co.getAttributeByName("ACTIVITYGROUPS").getValue().size());
     }
 
-    @Test(enabled = false, groups = {"create"}, dependsOnGroups = {"delete"})
+    @Test(enabled = true, groups = {"create"}, dependsOnGroups = {"delete"})
     public void testCreateSimpleSAPR3UserWithProfiles() {
         List<Map> profiles = new ArrayList<>();
         Map<String,String> prof1 = new HashMap<>();
@@ -351,7 +352,7 @@ public class SapConnectorTests {
     
     //////////////  UPDATE
 
-    @Test(enabled = false, dependsOnGroups = {"create"}, groups = {"update"})
+    @Test(enabled = true, dependsOnGroups = {"create"}, groups = {"update"})
     public void testUpdateSAPR3UserDelRoles() {
         java.util.Set<Attribute> updateAttributes = new java.util.HashSet<>();
         updateAttributes.add(AttributeBuilder.build("ACTIVITYGROUPS", new ArrayList<Map>()));
@@ -364,7 +365,7 @@ public class SapConnectorTests {
     }
 
 
-    @Test(enabled = false, dependsOnGroups = {"create"}, groups = {"update"})
+    @Test(enabled = true, dependsOnGroups = {"create"}, groups = {"update"})
     public void testUpdateSAPR3UserDelProfiles() {
         java.util.Set<Attribute> updateAttributes = new java.util.HashSet<>();
         updateAttributes.add(AttributeBuilder.build("PROFILES", new ArrayList<Map>()));
@@ -377,7 +378,7 @@ public class SapConnectorTests {
     }
 
     
-    @Test(enabled = false, dependsOnGroups = {"create"}, groups = {"update"})
+    @Test(enabled = true, dependsOnGroups = {"create"}, groups = {"update"})
     public void testUpdateSAPR3User() {
         Map<String,String> logonData = new HashMap<>();
         Map<String,String> address = new HashMap<>();
@@ -405,7 +406,7 @@ public class SapConnectorTests {
         Assert.assertEquals("JDOE2",((Map)co.getAttributeByName("ALIAS").getValue().get(0)).get("USERALIAS"));
     }
         
-    @Test(enabled = false, groups = {"update"}, dependsOnGroups = {"create"})
+    @Test(enabled = true, groups = {"update"}, dependsOnGroups = {"create"})
     public void testUpdatePasswordSAPR3UserPasswordActive() {
         java.util.Set<Attribute> updateAttributes = new java.util.HashSet<>();
         updateAttributes.add(AttributeBuilder.buildPassword(new GuardedString("Passw0rd1".toCharArray())));
@@ -417,7 +418,7 @@ public class SapConnectorTests {
     
     //////////////   LOCK/UNLOCK
     
-    @Test(enabled = false, dependsOnGroups = {"update"}, groups = {"lock"})
+    @Test(enabled = true, dependsOnGroups = {"update"}, groups = {"lock"})
     public void testLockSAPR3User() {
         OperationOptionsBuilder oob = new OperationOptionsBuilder();
         Uid uid = new Uid("REGULAR");
@@ -433,7 +434,7 @@ public class SapConnectorTests {
         Assert.assertTrue((Boolean)co.getAttributeByName(OperationalAttributes.LOCK_OUT_NAME).getValue().get(0));
     }
     
-    @Test(enabled = false, dependsOnGroups = {"create"}, groups = {"lock"})
+    @Test(enabled = true, dependsOnGroups = {"create"}, groups = {"lock"})
     public void testUnlockSAPR3User() {
         OperationOptionsBuilder oob = new OperationOptionsBuilder();
         Uid uid = new Uid("LOCKED");
@@ -451,7 +452,7 @@ public class SapConnectorTests {
     
     //////////////  DELETE
     
-    @Test(enabled = false, groups = {"delete"})
+    @Test(enabled = true, groups = {"delete"})
     public void testDeleteSAPR3User() {
         String[] ids = new String[]{"PWDEXP","ACTIV","LOCKED","REGULAR","TESTAGR","TESTPROF"};
         OperationOptions oo = new OperationOptionsBuilder().build();
@@ -489,6 +490,10 @@ public class SapConnectorTests {
     public ConnectorFacade createConnectorFacade(Class<? extends Connector> clazz,
         String environment) {
         PropertyBag propertyBag = TestHelpers.getProperties(clazz, environment);
+        
+        if (propertyBag.getStringProperty("configuration.user").equalsIgnoreCase("__configureme__")){
+            throw new SkipException("SAP Sample tests are skipped. Create private configuration!");
+        }
 
         APIConfiguration impl =
             TestHelpers.createTestConfiguration(clazz, propertyBag, "configuration");
