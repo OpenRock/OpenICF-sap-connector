@@ -29,6 +29,10 @@ import org.identityconnectors.common.logging.Log;
 import org.identityconnectors.common.security.GuardedString.Accessor;
 import org.identityconnectors.framework.common.exceptions.ConnectorException;
 
+import static com.sap.conn.jco.ext.Environment.isDestinationDataProviderRegistered;
+import static com.sap.conn.jco.ext.Environment.registerDestinationDataProvider;
+import static com.sap.conn.jco.ext.Environment.unregisterDestinationDataProvider;
+
 /**
  * Class to represent an SAP Connection
  */
@@ -39,7 +43,7 @@ public class SapConnection {
     private Properties connectionProperties = null;
     private ConnectorDestinationDataProvider cddProvider = null;
     /**
-     * Setup logging for the {@link ScriptedSQLConnection}.
+     * Setup logging for the {@link SapConnection}.
      */
     private static final Log logger = Log.getLog(SapConnection.class);
 
@@ -73,7 +77,12 @@ public class SapConnection {
                 }
             }
             this.cddProvider.dispose(this.configuration.getDestination());
-            logger.info("Destination {0} has been disposed", this.configuration.getDestination());
+            logger.info("Destination {0} has been removed", this.configuration.getDestination());
+            if (isDestinationDataProviderRegistered()) {
+                unregisterDestinationDataProvider((DestinationDataProvider) this.cddProvider);
+                logger.info("Destination Data Provider has been unregistered");
+            }
+            logger.info("Connection has been disposed");
         }
     }
 
@@ -211,9 +220,11 @@ public class SapConnection {
                 instance = new ConnectorDestinationDataProvider();
             }
             try {
-                com.sap.conn.jco.ext.Environment.registerDestinationDataProvider(instance);
+                if (!isDestinationDataProviderRegistered()) {
+                    registerDestinationDataProvider(instance);
+                    logger.info("Destination Data Provider has been registered");
+                }
             } catch (IllegalStateException e) {
-                //already registered
                 throw new ConnectorException(e);
             }
             return instance;
@@ -224,6 +235,7 @@ public class SapConnection {
         }
         
         public void dispose(String destination){
+            connectorProps.remove(destination);
             eventListener.deleted(destination);
         }
         
