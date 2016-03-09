@@ -11,7 +11,7 @@
  * Header, with the fields enclosed by brackets [] replaced by your own identifying
  * information: "Portions copyright [year] [name of copyright owner]".
  *
- * Copyright 2015 ForgeRock AS.
+ * Copyright 2015-2016 ForgeRock AS.
  */
 
 package samples.r3
@@ -303,6 +303,7 @@ class R3User {
     }
     
     def execute(JCoFunction function){
+        log.info("Executing {0}",function.getName())
         function.execute(destination);
         // Check the STATUS
         // Message type: S Success, E Error, W Warning, I Info, A Abort

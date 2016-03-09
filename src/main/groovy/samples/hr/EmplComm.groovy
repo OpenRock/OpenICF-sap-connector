@@ -11,7 +11,7 @@
  * Header, with the fields enclosed by brackets [] replaced by your own identifying
  * information: "Portions copyright [year] [name of copyright owner]".
  *
- * Copyright 2015 ForgeRock AS.
+ * Copyright 2015-2016 ForgeRock AS.
  */
 
 package samples.hr
@@ -51,7 +51,7 @@ class EmplComm {
         function.getImportParameterList().setValue("SUBTYPE",subType);
         function.getImportParameterList().setValue("TIMEINTERVALLOW",new Date().format('yyyyMMdd'));
         //function.getImportParameterList().setValue("TIMEINTERVALHIGH","99991231");
-        log.info("Executing BAPI_EMPLCOMM_GETDETAILEDLIST, SUBTYPE: {0} function...",subType);
+        log.info("Executing {0}, SUBTYPE: {1}", function.getName(),subType);
         function.execute(destination);
         
         // Check status
@@ -103,7 +103,7 @@ class EmplComm {
             function.getImportParameterList().setValue("COMMUNICATIONID", cid);
             function.getImportParameterList().setValue("VALIDITYBEGIN", begin);
             function.getImportParameterList().setValue("VALIDITYEND", end);
-            log.info("Executing BAPI_EMPLCOMM_CREATE (SUBTYPE {0}) function for {1}", subType, employeeId);
+            log.info("Executing {0}, SUBTYPE {1} for {2}", function.getName(), subType, employeeId);
             function.execute(destination);
 
             if (!"".equalsIgnoreCase(function.getExportParameterList().getStructure("RETURN").getString("TYPE"))){
@@ -120,41 +120,43 @@ class EmplComm {
     }
     
     def update(String subType, Map attributes){
-        // Based onthe attributes present in the update, this function
-        // will either call change/create_subsequent/delete or delimit
-        // a communication record
-        // A communication record looks like:
-        // "EMAIL": {
-        //        "EMPLOYEENO": "00001330",
-        //        "SUBTYPE": "0010",
-        //        "VALIDEND": "Fri Dec 31 00:00:00 CET 9999",
-        //        "VALIDBEGIN": "Sat Jan 01 00:00:00 CET 2000",
-        //        "RECORDNR": "000",
-        //        "COMMTYPE": "0010",
-        //        "NAMEOFCOMMTYPE": "E-mail",
-        //        "ID": "FOO@EXAMPLE.COM"
-        //        }
-        //
-        // The algorithm is the following:
-        // If the update does not contain a "RECORDNR" attribute {
-        //      a subsequent record is created with the provided VALIDBEGIN/VALIDEND date and ID
-        // } else {
-        //      If the update contains a "RECORDNR" attribute and VALIDBEGIN/VALIDEND {
-        //          if the update has no "ID" and no "DELIMIT_DATE"{
-        //              the record is deleted
-        //          } else {
-        //              if the update contains an "ID" {
-        //                  the record is changed
-        //              }
-        //              if the update contains a "DELIMIT_DATE"{
-        //                  the record validity is delimited
-        //              }
-        //          }
-        // }
-        
-        // The Update operation is done within a JCoContext begin/end.
-        // It allows the execution of stateful function calls with JCo.
-        // The same connection will be used for all function calls within the script
+        /* Based on the attributes present in the update, this function
+           will either call change/create_subsequent/delete or delimit
+           a communication record
+           A communication record looks like:
+           "EMAIL": {
+                  "EMPLOYEENO": "00001330",
+                  "SUBTYPE": "0010",
+                  "VALIDEND": "Fri Dec 31 00:00:00 CET 9999",
+                  "VALIDBEGIN": "Sat Jan 01 00:00:00 CET 2000",
+                  "RECORDNR": "000",
+                  "COMMTYPE": "0010",
+                  "NAMEOFCOMMTYPE": "E-mail",
+                  "ID": "FOO@EXAMPLE.COM"
+                  }
+
+           The algorithm is the following:
+           If the update does not contain a "RECORDNR" attribute {
+                a subsequent record is created with the provided VALIDBEGIN/VALIDEND date and ID
+           } else {
+                If the update contains a "RECORDNR" attribute and VALIDBEGIN/VALIDEND {
+                    if the update has no "ID" and no "DELIMIT_DATE"{
+                        the record is deleted
+                    } else {
+                        if the update contains an "ID" {
+                            the record is changed
+                        }
+                        if the update contains a "DELIMIT_DATE"{
+                            the record validity is delimited
+                        }
+                    }
+           }
+
+           The Update operation is done within a JCoContext begin/end.
+           It allows the execution of stateful function calls with JCo.
+           The same connection will be used for all function calls within the script */
+
+
         try{
             JCoContext.begin(destination)
             enqueue()
@@ -197,7 +199,7 @@ class EmplComm {
         function.getImportParameterList().setValue("VALIDITYEND", attributes.VALIDEND);
         function.getImportParameterList().setValue("OBJECTID", "");
         function.getImportParameterList().setValue("LOCKINDICATOR", "");
-        log.info("Executing BAPI_EMPLCOMM_CHANGE (SUBTYPE {0}) function for {1}", subType, employeeId);
+        log.info("Executing {0}, SUBTYPE {1} for {2}", function.getName(), subType, employeeId);
         function.execute(destination);
 
         if (!"".equalsIgnoreCase(function.getExportParameterList().getStructure("RETURN").getString("TYPE"))){
@@ -221,7 +223,7 @@ class EmplComm {
         function.getImportParameterList().setValue("VALIDITYEND", attributes.VALIDEND);
         function.getImportParameterList().setValue("OBJECTID", "");
         function.getImportParameterList().setValue("LOCKINDICATOR", "");
-        log.info("Executing BAPI_EMPLCOMM_DELIMIT (SUBTYPE {0}) function for {1}", subType, employeeId);
+        log.info("Executing {0}, SUBTYPE {1} for {2}", function.getName(), subType, employeeId);
         function.execute(destination);
 
         if (!"".equalsIgnoreCase(function.getExportParameterList().getStructure("RETURN").getString("TYPE"))){
@@ -246,7 +248,7 @@ class EmplComm {
         function.getImportParameterList().setValue("COMMUNICATIONID", cid);
         function.getImportParameterList().setValue("VALIDITYBEGIN", begin);
         function.getImportParameterList().setValue("VALIDITYEND", end);
-        log.info("Executing BAPI_EMPLCOMM_CREATESUCCESSOR (SUBTYPE {0}) function for {1}", subType, employeeId);
+        log.info("Executing {0}, SUBTYPE {1} for {2}", function.getName(), subType, employeeId);
         function.execute(destination);
 
         if (!"".equalsIgnoreCase(function.getExportParameterList().getStructure("RETURN").getString("TYPE"))){
@@ -269,7 +271,7 @@ class EmplComm {
         function.getImportParameterList().setValue("VALIDITYEND", attributes.VALIDEND);
         function.getImportParameterList().setValue("OBJECTID", "");
         function.getImportParameterList().setValue("LOCKINDICATOR", "");
-        log.info("Executing BAPI_EMPLCOMM_DELETE (SUBTYPE {0}) function for {1}", subType, employeeId);
+        log.info("Executing {0}, SUBTYPE {1} for {2}", function.getName(), subType, employeeId);
         function.execute(destination);
 
         if (!"".equalsIgnoreCase(function.getExportParameterList().getStructure("RETURN").getString("TYPE"))){
@@ -286,7 +288,7 @@ class EmplComm {
         JCoFunction enqueue = repository.getFunction("BAPI_EMPLOYEET_ENQUEUE");
         enqueue.getImportParameterList().setValue("NUMBER", employeeId);
         enqueue.getImportParameterList().setValue("VALIDITYBEGIN", new Date().format('yyyyMMdd'));
-        log.info("Executing BAPI_EMPLOYEET_ENQUEUE({0}) function...", employeeId);
+        log.info("Executing {0} for {1}", enqueue.getName(), employeeId);
         enqueue.execute(destination);
         
         def message = enqueue.getExportParameterList().getStructure("RETURN").getString("MESSAGE")
@@ -303,7 +305,7 @@ class EmplComm {
         // call BAPI_EMPLOYEET_DEQUEUE to unlock employee
         JCoFunction dequeue = repository.getFunction("BAPI_EMPLOYEET_DEQUEUE");
         dequeue.getImportParameterList().setValue("NUMBER",employeeId);
-        log.info("Executing BAPI_EMPLOYEET_DEQUEUE({0}) function...", employeeId);
+        log.info("Executing {0} for {1}", dequeue.getName(), employeeId);
         dequeue.execute(destination);
             
         def message = dequeue.getExportParameterList().getStructure("RETURN").getString("MESSAGE")

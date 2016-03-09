@@ -11,7 +11,7 @@
  * Header, with the fields enclosed by brackets [] replaced by your own identifying
  * information: "Portions copyright [year] [name of copyright owner]".
  *
- * Copyright 2015 ForgeRock AS.
+ * Copyright 2015-2016 ForgeRock AS.
  */
 package samples.r3
 
@@ -33,6 +33,7 @@ public class ListR3Objects {
     public static void listAccounts(JCoRepository repository, JCoDestination destination, Closure handler, String[] attributesToGet, Log log){
         def function = repository.getFunction("BAPI_USER_GETLIST");
         function.getImportParameterList().setValue("WITH_USERNAME",'*');
+        log.info("Executing {0}",function.getName())
         function.execute(destination);
         log.info("Number of users: "+function.getExportParameterList().getString("ROWS"));
         JCoTable  userList = function.getTableParameterList().getTable("USERLIST");
@@ -51,6 +52,7 @@ public class ListR3Objects {
     public static void listActivityGroups(JCoRepository repository, JCoDestination destination, Closure handler, String[] attributesToGet, Log log){
         def function = repository.getFunction("RFC_GET_TABLE_ENTRIES");
         function.getImportParameterList().setValue("TABLE_NAME","AGR_DEFINE");
+        log.info("Executing {0}",function.getName())
         function.execute(destination);
         log.info("Number of Activity Groups: "+function.getExportParameterList().getString("NUMBER_OF_ENTRIES"));
         JCoTable agr = function.getTableParameterList().getTable("ENTRIES");
@@ -69,6 +71,7 @@ public class ListR3Objects {
     public static void listCompanies(JCoRepository repository, JCoDestination destination, Closure handler, String[] attributesToGet, Log log){
         def function = repository.getFunction("RFC_GET_TABLE_ENTRIES");
         function.getImportParameterList().setValue("TABLE_NAME","USCOMPANY");
+        log.info("Executing {0}",function.getName())
         function.execute(destination);
         log.info("Number of Companies: "+function.getExportParameterList().getString("NUMBER_OF_ENTRIES"));
         JCoTable comp = function.getTableParameterList().getTable("ENTRIES");
@@ -87,6 +90,7 @@ public class ListR3Objects {
     
     public static void listRoles(JCoRepository repository, JCoDestination destination, Closure handler, String[] attributesToGet, Log log){
         def function = repository.getFunction("PRGN_ROLE_GETLIST");
+        log.info("Executing {0}",function.getName())
         function.execute(destination);
         log.info("Number of Roles: "+function.getExportParameterList().getString("ROWS"));
         JCoTable table = function.getTableParameterList().getTable("ROLES");
@@ -108,6 +112,7 @@ public class ListR3Objects {
         function.getImportParameterList().setValue("METHOD","GETDETAIL");
         function.getImportParameterList().setValue("PARAMETER","PROFILES");
         function.getImportParameterList().setValue("FIELD","BAPIPROF");
+        log.info("Executing {0}",function.getName())
         function.execute(destination);
         JCoTable table = function.getTableParameterList().getTable("VALUES_FOR_FIELD");
         log.info("Num rows: "+table.getNumRows()+", Num columns: "+table.getNumColumns())
