@@ -34,7 +34,7 @@
     </parent>
     <groupId>org.forgerock.openicf.connectors</groupId>
     <artifactId>sap-connector</artifactId>
-    <version>1.4.1.0-SNAPSHOT</version>
+    <version>1.4.0.0-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <name>Sap Connector</name>
     <description>Connector for SAP using JCo librairies</description>
