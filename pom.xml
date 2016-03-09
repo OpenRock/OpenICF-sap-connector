@@ -34,7 +34,7 @@
     </parent>
     <groupId>org.forgerock.openicf.connectors</groupId>
     <artifactId>sap-connector</artifactId>
-    <version>1.4.0.0</version>
+    <version>1.4.1.0-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <name>Sap Connector</name>
     <description>Connector for SAP using JCo librairies</description>
@@ -51,7 +51,7 @@
         <connection>scm:git:ssh://git@stash.forgerock.org:7999/openicf/sap-connector.git</connection>
         <developerConnection>scm:git:ssh://git@stash.forgerock.org:7999/openicf/sap-connector.git</developerConnection>
         <url>http://stash.forgerock.org/projects/OPENICF/repos/sap-connector/browse/</url>
-      <tag>1.4.0.0</tag>
+      <tag>HEAD</tag>
   </scm>
     <properties>
         <maven.compiler.target>1.7</maven.compiler.target>
